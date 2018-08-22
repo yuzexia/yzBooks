@@ -1,0 +1,33 @@
+{
+  "pages": [
+    "pages/books/main",
+    "pages/me/main",
+    "pages/comments/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#EA5149",
+    "navigationBarTitleText": "择哥图书馆",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "selectedColor": "#EA5149",
+    "list": [{
+      "pagePath":"pages/books/main",
+      "text": "图书",
+      "iconPath": "static/img/book.png",
+      "selectedIconPath": "static/img/book-active.png"
+    }, {
+      "pagePath":"pages/comments/main",
+      "text": "评论",
+      "iconPath": "static/img/comment.png",
+      "selectedIconPath": "static/img/comment-active.png"
+    }, {
+      "pagePath":"pages/me/main",
+      "text": "我",
+      "iconPath": "static/img/me.png",
+      "selectedIconPath": "static/img/me-active.png"
+    }]
+  }
+}
+  
