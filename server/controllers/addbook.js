@@ -7,12 +7,20 @@ const debug = require('debug')('koa-weapp-demo')
 
 module.exports = async (ctx) => {
     const {isbn, openId} = ctx.request.body
-    debug(isbn, openId)
+    console.log('ccccccccccccccccccccccccccccc', isbn, openId)
     if (isbn && openId) {
         let url = 'https://api.douban.com/v2/book/isbn/' + isbn
         debug(url)
-        await getJSON(url)
-        // debug(bookinfo)
+        const bookinfo = await getJSON(url)
+        debug('typeof', typeof bookinfo)
+        debug('instanceof', bookinfo instanceof Object)
+        const rate = bookinfo.rating.average
+        const { title, image, publisher, alt, author_intro, summary, price } = bookinfo
+        const tags = bookinfo.tags.map(v => {
+            return `${v.title} ${v.count}`
+        }).join(',')
+        const author = bookinfo.author.join(',')
+        return { rate, title, author, image, publisher, alt, author_intro, summary, price, tags }
     }
 }
 
@@ -21,7 +29,7 @@ function getJSON (url) {
         https.get(url, res => {
             let urlData = ''
             res.on('data', data => {
-                debug('hello data', JSON.parse(data))
+                // debug('hello data', JSON.parse(data))
                 urlData += data
             })
             res.on('end', data => {
