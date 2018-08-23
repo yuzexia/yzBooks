@@ -124,3 +124,18 @@ koa-weapp-demo
 除了 `config.js` ，腾讯云还会在你初始化小程序解决方案的时候，向你的机器下发 `sdk.config`，里面包含了你的腾讯云 AppId、SecretId、SecretKey 和服务器等信息，无需修改，`qcloud.js` 会自动引入。如果你想要在自己的机器上部署 SDK 的 Demo，请查看[自行部署 Demo 说明]()。
 
 除此以外，关于 SDK 的详细配置信息，还可以查看 [SDK 的 API 文档]()。
+
+### 操作mysql的命令
+
+```
+show databases;  // 查看数据库
+
+use cAuth; // 使用数据库
+
+show tables;  //查看表
+
+select * from csessioninfo; //查询csessioninfo表的信息
+
+desc csessioninfo;  //csessioninfo表的描述信息
+
+```
