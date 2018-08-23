@@ -7,7 +7,7 @@ const debug = require('debug')('koa-weapp-demo')
 
 module.exports = async (ctx) => {
     const {isbn, openId} = ctx.request.body
-    console.log('ccccccccccccccccccccccccccccc', isbn, openId)
+    // console.log('ccccccccccccccccccccccccccccc', isbn, openId)
     if (isbn && openId) {
         let url = 'https://api.douban.com/v2/book/isbn/' + isbn
         debug(url)
@@ -29,7 +29,6 @@ function getJSON (url) {
         https.get(url, res => {
             let urlData = ''
             res.on('data', data => {
-                // debug('hello data', JSON.parse(data))
                 urlData += data
             })
             res.on('end', data => {
