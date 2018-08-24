@@ -20,7 +20,7 @@
 <script>
 import qcloud from 'wafer2-client-sdk'
 import config from '@/config'
-import { showSuccess, post } from '@/util'
+import { showSuccess, post, showModal } from '@/util'
 import YearProgress from '@/components/YearProgress'
 export default {
     data () {
@@ -79,11 +79,13 @@ export default {
         async addBook (isbn) {
             const res = await post('/weapp/addbook', {
                 isbn,
-                openId: this.userInfo.openId
+                openid: this.userInfo.openId
             })
             console.log(res)
             if (Number(res.code) === 0 && res.data.title) {
-                showSuccess(`添加成功: ${res.data.title}添加成功`, 'success')
+                showModal('添加成功', `${res.data.title}添加成功`)
+            } else {
+                showModal('添加失败', res.data.msg)
             }
         }
     }
