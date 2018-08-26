@@ -1,6 +1,9 @@
 <template>
     <div class="book-card">
         {{book.title}}
+        {{book.isbn}}
+        {{book.image}}
+        {{book.content}}
     </div>
 </template>
 
