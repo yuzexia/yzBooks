@@ -139,3 +139,11 @@ select * from csessioninfo; //查询csessioninfo表的信息
 desc csessioninfo;  //csessioninfo表的描述信息
 
 ```
+
+### 联表查询的时候注意一个问题
+
+```
+/* SQL错误（1267）：Illegal mix of collations (utf8mb4_0900_ai_ci,IMPLICIT) and (utf8mb4_sl_0900_ai_ci,IMPLICIT) for operation '=' */
+
+// 两个表的字段的排序编码不一样报上述这个错误
+```
