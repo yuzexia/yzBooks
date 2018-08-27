@@ -29,3 +29,9 @@ export default{
 <style>
 
 </style>
+<style lang="scss">
+.primary-color{
+    color:#EA5149;
+}
+</style>
+
