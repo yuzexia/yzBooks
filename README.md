@@ -37,3 +37,25 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 #### mpvue如何处理bindgetuserinfo？
 
 (mpvue如何处理bindgetuserinfo)[https://segmentfault.com/q/1010000015082874]
+
+#### mpvue配置pages页面下的*.json文件
+
+> 必须起与该目录下的启动js同名的json文件名，才能被`mpvue-loader(1.1.2)`正确的编译
+
+```
+├─books
+│      Book.vue
+│      main.js
+│      main.json
+│
+├─comments
+│      Comment.vue
+│      main.json
+│      main.js
+│
+└─me
+        main.js
+        main.json
+        Me.vue
+```
+

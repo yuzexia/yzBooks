@@ -30,10 +30,6 @@ export default {
                 avatarUrl: '../../../static/img/defaultAvatar.png', */
                 openId: ''
             }
-            // showLoginButton: true,
-            // userInfo: null,
-            // resBookObj: null,
-            // openid: ''
         }
     },
     components: {

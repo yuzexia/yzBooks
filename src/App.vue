@@ -33,5 +33,10 @@ export default{
 .primary-color{
     color:#EA5149;
 }
+.footer-text{
+    padding:20px 0;
+    text-align:center;
+    font-size:12px;
+}
 </style>
 

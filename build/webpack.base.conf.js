@@ -112,12 +112,6 @@ module.exports = {
     }], {
       context: 'src/'
     }),
-    new CopyWebpackPlugin([{
-      from: '**/*.json',
-      to: '**/*'
-    }], {
-      context: 'src/**/'
-    }),
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),

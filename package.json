@@ -45,7 +45,7 @@
     "glob": "^7.1.2",
     "html-webpack-plugin": "^3.2.0",
     "http-proxy-middleware": "^0.18.0",
-    "mpvue-loader": "^1.1.2",
+    "mpvue-loader": "1.1.2",
     "mpvue-template-compiler": "^1.0.11",
     "mpvue-webpack-target": "^1.0.0",
     "node-sass": "^4.9.3",
@@ -68,7 +68,7 @@
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware-hard-disk": "^1.12.0",
     "webpack-merge": "^4.1.0",
-    "webpack-mpvue-asset-plugin": "^0.1.1"
+    "webpack-mpvue-asset-plugin": "0.1.1"
   },
   "engines": {
     "node": ">= 4.0.0",
