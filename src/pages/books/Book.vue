@@ -32,9 +32,9 @@ export default {
     },
     onPullDownRefresh () {
         this.getList(true)
+        this.getTop()
     },
     onReachBottom () {
-        console.log('我触底了。。。')
         if (!this.more) {
             return false
         }

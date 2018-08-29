@@ -9,7 +9,7 @@
                     {{book.rate}} <Rate :value="book.rate"></Rate>
                 </div>
                 <div class="left">
-                    book.title
+                    {{book.title}}
                 </div>
             </div>
             <div class="row">
