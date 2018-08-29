@@ -1,7 +1,7 @@
 <template>
-    <div class="book-card">
+    <a class="book-card" :href="detailUrl">
         <div class="thumb">
-            <img :src="book.image" alt="" class="img" mode="aspectFit">
+            <img @click.stop="thumbImg" :src="book.image" alt="" class="img" mode="aspectFit">
         </div>
         <div class="detail">
             <div class="row primary-color">
@@ -13,8 +13,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="right">
-                    浏览量:
+                <div class="right primary-color">
+                    浏览量: {{book.count}}
                 </div>
                 <div class="left">
                     {{book.author}}
@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </a>
 </template>
 
 <script>
@@ -38,12 +38,27 @@ export default {
     components: {
         Rate
     },
-    props: ['book']
+    props: ['book'],
+    computed: {
+        detailUrl () {
+            return `/pages/detail/main?id=${this.book.id}`
+        }
+    },
+    methods: {
+        // 查看大图
+        thumbImg () {
+            wx.previewImage({
+                current: this.book.image,
+                urls: [this.book.image]
+            })
+        }
+    }
 }
 </script>
 
 <style lang="scss">
 .book-card{
+    display:block;
     padding:5px;
     overflow:hidden;
     margin-top:5px;

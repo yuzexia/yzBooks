@@ -59,3 +59,8 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
         Me.vue
 ```
 
+#### 小程序页面跳转无响应问题
+
+- 你要跳转的是tabBar中的页面，需要用到专属的跳转方法switchtab
+- 在app.js中没有配置该页面
+- 页面层级是不是超过五层了。可以用销毁的跳转方式
