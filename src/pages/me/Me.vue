@@ -1,9 +1,6 @@
 <template>
     <div class="container">
         <button class="login-button" open-type="getUserInfo" v-if="!userInfo.avatarUrl" @getuserinfo="onGotUserInfo">点击登陆</button>
-        <!-- {{userInfo.nickName}}
-        {{userInfo.avatarUrl}}
-        {{userInfo.openId}} -->
         <div class="userinfo" v-if="userInfo.avatarUrl">
             <img :src="userInfo.avatarUrl" alt="">
             <p>{{userInfo.nickName}}</p>
@@ -11,25 +8,26 @@
         <YearProgress></YearProgress>
 
         <button class="btn" @click="scanBook" v-if="userInfo.avatarUrl">添加图书</button>
-        {{userInfo.avatarUrl}}
-        {{userInfo.openId}}
-        <!-- {{resBookObj}} -->
+        {{resBookObj}}
     </div>
 </template>
 
 <script>
-import qcloud from 'wafer2-client-sdk'
-import config from '@/config'
+// import qcloud from 'wafer2-client-sdk'
+// import config from '@/config'
+import WXBizDataCrypt from '@/WXBizDataCrypt'
 import { showSuccess, post, showModal } from '@/util'
 import YearProgress from '@/components/YearProgress'
 export default {
     data () {
         return {
             userInfo: {
-                /* nickName: '未登录',
-                avatarUrl: '../../../static/img/defaultAvatar.png', */
+                nickName: '未登录',
+                avatarUrl: '../../../static/img/defaultAvatar.png',
                 openId: ''
-            }
+            },
+            AppSecret: 'd2a50bed11b28cee4b68aa6efabea818',
+            AppId: 'wxe061f379e793a2b2'
         }
     },
     components: {
@@ -40,28 +38,125 @@ export default {
     },
     methods: {
         onGotUserInfo: function (e) {
-            console.log(e)
+            // console.log(e)
             if (e.mp.detail.userInfo) {
-                qcloud.setLoginUrl(config.loginUrl)
-                qcloud.login({
-                    success: (userInfo) => {
-                        console.log(userInfo)
-                        qcloud.request({
-                            url: config.userUrl,
-                            login: true,
-                            success: (userRes) => {
-                                console.log(userRes)
-                                this.userInfo = userRes.data.data
-                                wx.setStorageSync('userInfo', userRes.data.data)
-                            }
+                let _detail = e.mp.detail
+                wx.login({
+                    success: (res) => {
+                        console.log(res)
+                        // 发起网络请求
+                        wx.request({
+                            url: 'https://api.weixin.qq.com/sns/jscode2session',
+                            data: {
+                                appid: this.AppId,
+                                secret: this.AppSecret,
+                                js_code: res.code,
+                                grant_type: 'authorization_code'
+                            },
+                            header: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            method: 'GET',
+                            success: (res) => {
+                                var pc = new WXBizDataCrypt(this.AppId, res.data.session_key)
+                                var data = pc.decryptData(_detail.encryptedData, _detail.iv)
+                                console.log('解密后 data: ', data)
+                                this.userInfo = data
+                                wx.setStorageSync('userInfo', data)
+                            },
+                            fail: (error) => {
+                                console.log(error)
+                            },
+                            complete: (res) => {}
                         })
                     }
                 })
-                showSuccess('登陆成功', 'success')
+                // qcloud.setLoginUrl(config.loginUrl)
+                // qcloud.login({
+                //     success: (userInfo) => {
+                //         console.log(userInfo)
+                //         /* qcloud.request({
+                //             url: config.userUrl,
+                //             login: true,
+                //             success: (userRes) => {
+                //                 console.log(userRes)
+                //                 this.userInfo = userRes.data.data
+                //                 wx.setStorageSync('userInfo', userRes.data.data)
+                //             }
+                //         }) */
+                //     },
+                //     fail: (error) => {
+                //         showSuccess(error.errMsg, 'none')
+                //     }
+                // })
+                /* const session = qcloud.Session.get()
+                console.log(session) */
+                // showSuccess('登陆成功', 'success')
             } else {
                 showSuccess('登陆失败', 'none')
             }
         },
+        test () {
+            wx.login({
+                success: (res) => {
+                    console.log(res)
+                    // 发起网络请求
+                    wx.request({
+                        url: 'https://api.weixin.qq.com/sns/jscode2session',
+                        data: {
+                            appid: this.AppId,
+                            secret: this.AppSecret,
+                            js_code: res.code,
+                            grant_type: 'authorization_code'
+                        },
+                        header: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        method: 'GET',
+                        success: (res) => {
+                            var pc = new WXBizDataCrypt(this.AppId, res.data.session_key)
+                            wx.getUserInfo({
+                                success: function (res) {
+                                    var data = pc.decryptData(res.encryptedData, res.iv)
+                                    console.log('解密后 data: ', data)
+                                }
+                            })
+                        },
+                        fail: function (res) {},
+                        complete: function (res) {}
+                    })
+                }
+            })
+        },
+        // login () {
+        //     // 设置登录地址
+        //     qcloud.setLoginUrl(config.loginUrl)
+        //     const session = qcloud.Session.get()
+        //     if (session) {
+        //         qcloud.loginWithCode({
+        //             success: res => {
+        //                 console.log(res)
+        //                 wx.setStorageSync('userinfo', res)
+        //             },
+        //             fail: err => {
+        //                 console.error(err)
+        //             }
+        //         })
+        //     } else {
+        //         qcloud.login({
+        //             success: res => {
+        //                 console.log(res)
+        //                 showSuccess('登录成功', 'sucess')
+        //                 this.userinfo = res
+        //                 wx.setStorageSync('userinfo', res)
+        //             },
+        //             fail: err => {
+        //                 console.error(err)
+        //                 console.log('登录失败', err)
+        //             }
+        //         })
+        //     }
+        // },
         // 扫描图书
         scanBook () {
             wx.scanCode({
@@ -73,6 +168,8 @@ export default {
             })
         },
         async addBook (isbn) {
+            console.log(isbn)
+            console.log(this.userInfo.openId)
             const res = await post('/weapp/addbook', {
                 isbn,
                 openid: this.userInfo.openId
