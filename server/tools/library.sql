@@ -13,3 +13,12 @@ CREATE TABLE books (
     author varchar(100),
     author_intro varchar(200)
 )
+
+create table comments (
+    id int not null auto_increment primary key,
+    openid varchar(50) not null,
+    bookid varchar(10) not null,
+    comment varchar(200) not null,
+    phone varchar(50),
+    location varchar(50)
+)

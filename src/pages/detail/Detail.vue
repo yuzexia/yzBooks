@@ -19,12 +19,12 @@
                 <switch color="#EA5A49" :checked="phone" @change="getPhone"></switch>
                 <span class="primary-color">{{phone}}</span>
             </div>
-            <button class="">评论</button>
+            <button class="comment-btn" @click="addComment">评论</button>
         </div>
     </div>
 </template>
 <script>
-import {get} from '@/util'
+import {get, post, showModal} from '@/util'
 import BookInfo from '@/components/BookInfo'
 export default {
     data () {
@@ -33,7 +33,8 @@ export default {
             info: {},
             comment: '',
             location: '',
-            phone: ''
+            phone: '',
+            userinfo: {}
         }
     },
     components: {
@@ -42,6 +43,10 @@ export default {
     mounted () {
         this.bookid = this.$root.$mp.query.id
         this.getDetail()
+        const userinfo = wx.getStorageSync('userInfo')
+        if (userinfo) {
+            this.userinfo = userinfo
+        }
     },
     // 转发微信小程序
     onShareAppMessage: function () {
@@ -99,6 +104,25 @@ export default {
             } else {
                 this.location = ''
             }
+        },
+        // 发表评论
+        async addComment () {
+            // 评论内容 手机型号 地理位置 图书id 用户openid
+            const data = {
+                openId: this.userinfo.openId,
+                bookid: this.bookid,
+                comment: this.comment,
+                phone: this.phone,
+                location: this.location
+            }
+            console.log(data)
+            try {
+                const response = await post('/weapp/addcomment', data)
+                console.log(response)
+                this.comment = ''
+            } catch (error) {
+                showModal('失败', error.msg)
+            }
         }
     }
 }
@@ -117,6 +141,10 @@ export default {
     .location,
     .phone{
         margin-top:10rpx;
+    }
+    .comment-btn{
+        margin-top:20px;
+        background:#EA5A49;
     }
 }
 </style>
