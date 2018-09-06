@@ -2,8 +2,8 @@
     <div class="detail">
         <!-- 图书id: {{bookid}} -->
         <BookInfo :info="info"></BookInfo>
-
-        <div class="comment">
+        <CommentList :comments="comments"></CommentList>
+        <div class="comment" v-if="showAdd">
             <textarea v-model="comment"
                       class="textarea"
                       :maxlength="100"
@@ -21,11 +21,16 @@
             </div>
             <button class="comment-btn" @click="addComment">评论</button>
         </div>
+        <div v-else class="footer-text">
+            未登陆或者已经评论过啦
+        </div>
+        <button class="share-btn" open-type="share">转发给好友</button>
     </div>
 </template>
 <script>
 import {get, post, showModal, showSuccess} from '@/util'
 import BookInfo from '@/components/BookInfo'
+import CommentList from '@/components/CommentList'
 export default {
     data () {
         return {
@@ -34,15 +39,32 @@ export default {
             comment: '',
             location: '',
             phone: '',
-            userinfo: {}
+            userinfo: {},
+            comments: []
+        }
+    },
+    computed: {
+        // 判断是否显示评论模块
+        // 1，未登录 2，已登录，已评论
+        showAdd () {
+            console.log(this.userinfo)
+            if (!this.userinfo.openId) {
+                return false
+            }
+            if (this.comments.filter(v => v.openid === this.userinfo.openId).length) {
+                return false
+            }
+            return true
         }
     },
     components: {
-        BookInfo
+        BookInfo,
+        CommentList
     },
     mounted () {
         this.bookid = this.$root.$mp.query.id
         this.getDetail()
+        this.getComments()
         const userinfo = wx.getStorageSync('userInfo')
         if (userinfo) {
             this.userinfo = userinfo
@@ -120,15 +142,24 @@ export default {
                 const response = await post('/weapp/addcomment', data)
                 console.log(response)
                 this.comment = ''
+                this.getComments()
                 showSuccess(response.data.msg, 'success')
             } catch (error) {
                 showModal('失败', error.msg)
             }
+        },
+        // 获取评论列表
+        async getComments () {
+            const response = await get('/weapp/commentlist', {bookid: this.bookid})
+            console.log(response)
+            this.comments = response.data.list || []
         }
     }
 }
 </script>
 <style lang="scss">
+.detail{
+
 .comment{
     margin-top:10px;
     padding:0 15rpx;
@@ -146,6 +177,13 @@ export default {
     .comment-btn{
         margin-top:20px;
         background:#EA5A49;
+        color:#fff;
+    }
+}
+.share-btn{
+    margin-top:20px;
+    background:#EA5A49;
+    color:#fff;
     }
 }
 </style>

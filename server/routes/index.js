@@ -43,5 +43,7 @@ router.get('/bookdetail', controllers.bookdetail)
 router.get('/top', controllers.top)
 // 图书评论
 router.post('/addcomment', controllers.addcomment)
+// 获取评论列表
+router.get('/commentlist', controllers.commentlist)
 
 module.exports = router
