@@ -42,6 +42,6 @@ router.get('/bookdetail', controllers.bookdetail)
 // 获取图书访问量排行
 router.get('/top', controllers.top)
 // 图书评论
-router.get('/addcomment', controllers.addcomment)
+router.post('/addcomment', controllers.addcomment)
 
 module.exports = router

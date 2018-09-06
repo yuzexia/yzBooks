@@ -24,7 +24,7 @@
     </div>
 </template>
 <script>
-import {get, post, showModal} from '@/util'
+import {get, post, showModal, showSuccess} from '@/util'
 import BookInfo from '@/components/BookInfo'
 export default {
     data () {
@@ -109,7 +109,7 @@ export default {
         async addComment () {
             // 评论内容 手机型号 地理位置 图书id 用户openid
             const data = {
-                openId: this.userinfo.openId,
+                openid: this.userinfo.openId,
                 bookid: this.bookid,
                 comment: this.comment,
                 phone: this.phone,
@@ -120,6 +120,7 @@ export default {
                 const response = await post('/weapp/addcomment', data)
                 console.log(response)
                 this.comment = ''
+                showSuccess(response.data.msg, 'success')
             } catch (error) {
                 showModal('失败', error.msg)
             }
