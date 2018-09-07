@@ -3,7 +3,7 @@
         <div class="comment-title" v-if="comments.length">
             评论
         </div>
-        <div class="comment-context" v-for="item in comments" :key="item.id">
+        <div class="comment-context" v-for="item in comments" :key="item.id" @click="handleClick(item)">
             <div class="user">
                 <div class="inline">
                     <img :src="item.image" alt="item.title" class="avatar" mode="aspectFit">
@@ -27,6 +27,19 @@ export default {
         comments: {
             type: [Array],
             default: []
+        },
+        type: {
+            type: [String],
+            default: ''
+        }
+    },
+    methods: {
+        handleClick (item) {
+            if (this.type === 'user') {
+                wx.navigateTo({
+                    url: `/pages/detail/main?id=${item.bookid}`
+                })
+            }
         }
     }
 }
