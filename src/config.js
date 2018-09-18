@@ -1,6 +1,7 @@
 // 配置项
 
-const host = 'http://localhost:5757'
+// const host = 'http://localhost:5757'
+const host = 'https://eeweou0j.qcloud.la' // 测试环境域名
 
 const config = {
     host,

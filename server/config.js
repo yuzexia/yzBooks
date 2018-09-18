@@ -33,8 +33,8 @@ const CONF = {
         // host: 'http://eeweou0j.qcloud.la/',
         port: 3306,
         user: 'root',
-        db: 'cauth',
-        pass: '123456',
+        db: 'cAuth',
+        pass: 'wxe061f379e793a2b2',
         char: 'utf8mb4'
     },
 
